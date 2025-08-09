@@ -6,10 +6,10 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 // Core Collections & Globals
-import Users from './collections/Users'
-import { Media } from './collections/Media'
-import { WebsiteSettings } from './globals/WebsiteSettings'
-import { GeneralContents } from './globals/GeneralContents'
+import Users from './collections/users'
+import { Media } from './collections/media'
+import { WebsiteSettings } from './globals/websiteSettings'
+import { GeneralContents } from './globals/generalContents'
 
 // Branch-specific Configuration
 import { branchCollections, branchGlobals } from './config/branchConfig'
@@ -63,8 +63,8 @@ export default buildConfig({
     },
     components: {
       graphics: {
-        Icon: '/graphics/Icon/index.tsx#Icon',
-        Logo: '/graphics/Logo/index.tsx#Logo',
+        Icon: '/graphics/icon.tsx#Icon',
+        Logo: '/graphics/logo.tsx#Logo',
       },
     },
     importMap: {

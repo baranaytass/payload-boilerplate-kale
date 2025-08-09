@@ -51,7 +51,7 @@ export const getOptimizedMediaUrl = (
     const baseUrl = getMediaUrl(media)
     if (!baseUrl || typeof media === 'string') return baseUrl
     
-    if (typeof media === 'object' && media.sizes && media.sizes[size]) {
+    if (typeof media === 'object' && media && media.sizes && media.sizes[size]) {
       return media.sizes[size]?.url || baseUrl
     }
     

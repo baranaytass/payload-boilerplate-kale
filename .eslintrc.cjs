@@ -1,4 +1,6 @@
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
-  extends: ['@payloadcms'],
+  extends: ['next/core-web-vitals'],
+  ignorePatterns: ['**/payload-types.ts'],
 }
