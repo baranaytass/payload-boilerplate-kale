@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "src/app/(payload)/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["fra1"]
+}

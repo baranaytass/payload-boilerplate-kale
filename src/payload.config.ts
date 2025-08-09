@@ -86,6 +86,21 @@ export default buildConfig({
   graphQL: {
     schemaOutputFile: path.resolve(dirname, 'generated-schema.graphql'),
   },
+  plugins: [
+    // Add Vercel Blob Storage for file uploads
+    ...(process.env.BLOB_READ_WRITE_TOKEN
+      ? [
+          require('@payloadcms/storage-vercel-blob').vercelBlobStorage({
+            enabled: true,
+            collections: {
+              'media': true,
+            },
+            token: process.env.BLOB_READ_WRITE_TOKEN,
+            clientUploads: true,
+          }),
+        ]
+      : []),
+  ],
   secret: process.env.PAYLOAD_SECRET || 'default-secret-for-dev',
   upload: {
     limits: {
