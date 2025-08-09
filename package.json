@@ -1,0 +1,52 @@
+{
+  "name": "kale-payload-boilerplate",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production NODE_OPTIONS=--no-deprecation next build",
+    "build:dev": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "generate:schema": "payload-graphql generate:schema",
+    "generate:types": "cross-env NODE_OPTIONS='--import tsx' payload generate:types",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "^3.39.1",
+    "@payloadcms/next": "^3.39.1",
+    "@payloadcms/richtext-slate": "^3.39.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "cross-env": "^7.0.3",
+    "graphql": "^16.8.1",
+    "next": "^15.2.3",
+    "payload": "^3.39.1",
+    "pg": "^8.16.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.34.1",
+    "tailwind-merge": "^1.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.50",
+    "@types/pg": "^8.15.2",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.15",
+    "dotenv": "^16.5.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^15.2.3",
+    "postcss": "^8.4.29",
+    "tailwindcss": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.16.2",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0"
+  }
+}
