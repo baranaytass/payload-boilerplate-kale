@@ -1,57 +1,195 @@
-# Payload White-label Example
+# 🚀 Kale Payload Boilerplate
 
-This example demonstrates how to re-brand or white-label the [Payload Admin Panel](https://payloadcms.com/docs/admin/overview#the-admin-panel) by modifying the favicon, icon, logo, ogImage and title suffix.
+A modern, production-ready **Payload CMS** boilerplate with **PostgreSQL**, **Slate Editor**, and **Kale Branding**. Built for rapid development with a clean, modular architecture.
 
-## Quick Start
+## ✨ Features
 
-To spin up this example locally, follow these steps:
+- **🗄️ PostgreSQL Database** - Reliable, scalable database with full-text search
+- **📝 Slate Rich Text Editor** - Feature-rich, extensible editor
+- **🎨 Kale CMS Branding** - Professional admin panel design
+- **🔐 Role-based Access Control** - Secure user management system
+- **📁 Media Management** - Optimized image handling with error boundaries
+- **🔧 Modular Architecture** - Easy to extend with dependency injection
+- **📚 TypeScript First** - Full type safety throughout
+- **🎯 SEO Ready** - Built-in meta management and optimization
 
-1. Run the following command to create a project from the example:
+## 🌿 Branches
 
-- `npx create-payload-app --example whitelabel`
+### `main` Branch
+Core boilerplate without vendor-specific integrations:
+- PostgreSQL + Slate Editor
+- Core collections & globals
+- Access control system
+- Media optimization
+- Development tools
 
-2. `cp .env.example .env` to copy the example environment variables
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. `open http://localhost:3000/admin` to access the admin panel
-5. Login with email `dev@payloadcms.com` and password `test`
+### `vercel` Branch  
+Production-ready Vercel deployment:
+- All main branch features
+- Vercel Blob Storage integration
+- Analytics & Speed Insights
+- Optimized build configuration
+- Ready-to-deploy setup
 
-## Re-branding walkthrough
+## 🚀 Quick Start
 
-Start by navigating to the `payload.config.ts` file and then take a look at the admin property.
+### 1. Clone the Repository
+```bash
+# Clone main branch (recommended for most projects)
+git clone https://github.com/baranaytass/payload-boilerplate-kale.git
+cd payload-boilerplate-kale
 
-The following sub-properties have already been configured:
+# OR clone Vercel branch for Vercel deployment
+git clone -b vercel https://github.com/baranaytass/payload-boilerplate-kale.git
+cd payload-boilerplate-kale
+```
 
-`meta.icons`: Images that will be displayed as the tab icon.
+### 2. Install Dependencies
+```bash
+npm install
+# or
+pnpm install
+```
 
-`meta.openGraph.images`: Images that will appear in the preview when you share links to your admin panel online and through social media.
+### 3. Setup Environment Variables
+```bash
+cp .env.example .env.local
+```
 
-`meta.titleSuffix`: Text that appends the meta/page title displayed in the browser tab — _must be a string_.
+Edit `.env.local` with your database credentials:
+```env
+DATABASE_URI=postgresql://username:password@localhost:5432/your_database_name
+PAYLOAD_SECRET=your-super-secret-key-here
+```
 
-`graphics.Logo`: Image component to be displayed as the logo on the Sign Up / Login view.
+### 4. Setup Database
+Ensure PostgreSQL is running and create your database:
+```sql
+CREATE DATABASE your_database_name;
+```
 
-`graphics.Icon`: Image component displayed above the Nav in the admin panel, often a condensed version of a full logo.
+### 5. Run Development Server
+```bash
+npm run dev
+```
 
-👉 Check out this blog post for a more in-depth walkthrough: [White-label the Admin UI](https://payloadcms.com/blog/white-label-admin-ui)
+Visit `http://localhost:3000/admin` to access the admin panel.
 
-## Development
+## 📋 Available Scripts
 
-To spin up this example locally, follow the [Quick Start](#quick-start).
+```bash
+npm run dev          # Development server
+npm run build        # Production build
+npm run start        # Start production server
+npm run generate:types  # Generate TypeScript types
+npm run lint         # Run linting
+```
 
-### Seed
+## 🏗️ Project Structure
 
-On boot, a seed script is included to create a user.
+```
+src/
+├── access/          # Access control functions
+├── app/             # Next.js App Router
+├── collections/     # Payload collections
+├── config/          # Configuration modules
+│   └── branchConfig.ts  # Dependency injection system
+├── fields/          # Reusable field schemas
+├── globals/         # Global configurations
+├── graphics/        # Brand assets (Kale logo & icon)
+├── lib/            # Utility libraries
+└── utilities/      # Helper functions
+```
 
-## Production
+## 🔧 Configuration
 
-To run Payload in production, you need to build and start the Admin panel. To do so, follow these steps:
+### Adding Custom Collections
+Add your collections to `src/config/branchConfig.ts`:
 
-1. Invoke the `next build` script by running `pnpm build` or `npm run build` in your project root. This creates a `.next` directory with a production-ready admin bundle.
-1. Finally run `pnpm start` or `npm run start` to run Node in production and serve Payload from the `.build` directory.
+```typescript
+import { YourCollection } from '../collections/YourCollection'
 
-### Deployment
+export const branchCollections: CollectionConfig[] = [
+  YourCollection,
+  // Add more collections here
+]
+```
 
-The easiest way to deploy your project is to use [Payload Cloud](https://payloadcms.com/new/import), a one-click hosting solution to deploy production-ready instances of your Payload apps directly from your GitHub repo. You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
+### Adding Custom Globals
+```typescript
+import { YourGlobal } from '../globals/YourGlobal'
 
-## Questions
+export const branchGlobals: GlobalConfig[] = [
+  YourGlobal,
+  // Add more globals here
+]
+```
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+## 🔐 Default Collections
+
+### Users
+- Role-based access control (admin, editor, user)
+- First user automatically becomes admin
+- Secure authentication system
+
+### Media
+- Optimized image handling
+- Multiple size variants (thumbnail, card, tablet)
+- Error boundaries and fallbacks
+
+## 🌍 Default Globals
+
+### Website Settings
+- Site information and branding
+- Contact details and social media
+- Logo and favicon management
+
+### General Contents
+- Hero section management
+- About section content
+- Gallery management
+- Footer configuration
+
+## 🚢 Deployment
+
+### Vercel (Recommended)
+1. Use the `vercel` branch
+2. Connect to Vercel
+3. Add environment variables
+4. Deploy!
+
+### Other Platforms
+1. Use the `main` branch
+2. Ensure PostgreSQL is available
+3. Set environment variables
+4. Run `npm run build && npm start`
+
+## 🛠️ Development Patterns
+
+This boilerplate follows established patterns documented in `DEVELOPMENT_PATTERNS.md`:
+
+- **Modular Architecture** - Easy to extend and maintain
+- **TypeScript First** - Full type safety
+- **Access Control** - Role-based permissions
+- **Error Handling** - Graceful degradation
+- **Code Organization** - Clear folder structure
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Follow the development patterns
+4. Submit a pull request
+
+## 📄 License
+
+MIT License - feel free to use this boilerplate for your projects!
+
+## 🙏 Credits
+
+Built with [Payload CMS](https://payloadcms.com/) and inspired by the WhiteLabel example.
+Kale branding and architecture by [Kale Team](https://github.com/baranaytass).
+
+---
+
+**Happy coding! 🎉**
