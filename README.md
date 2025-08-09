@@ -1,195 +1,84 @@
-# 🚀 Kale Payload Boilerplate
+# Kale Payload Boilerplate
 
-A modern, production-ready **Payload CMS** boilerplate with **PostgreSQL**, **Slate Editor**, and **Kale Branding**. Built for rapid development with a clean, modular architecture.
+A production-ready **Payload CMS** boilerplate with **PostgreSQL**, **Slate Editor**, and clean architecture for rapid development.
 
-## ✨ Features
+## Features
 
-- **🗄️ PostgreSQL Database** - Reliable, scalable database with full-text search
-- **📝 Slate Rich Text Editor** - Feature-rich, extensible editor
-- **🎨 Kale CMS Branding** - Professional admin panel design
-- **🔐 Role-based Access Control** - Secure user management system
-- **📁 Media Management** - Optimized image handling with error boundaries
-- **🔧 Modular Architecture** - Easy to extend with dependency injection
-- **📚 TypeScript First** - Full type safety throughout
-- **🎯 SEO Ready** - Built-in meta management and optimization
+- PostgreSQL database with full TypeScript support
+- Slate rich text editor
+- Role-based access control system
+- Optimized media management
+- Modular architecture with dependency injection
+- SEO-ready globals and collections
+- Professional admin panel with Kale branding
 
-## 🌿 Branches
+## Quick Start
 
-### `main` Branch
-Core boilerplate without vendor-specific integrations:
-- PostgreSQL + Slate Editor
-- Core collections & globals
-- Access control system
-- Media optimization
-- Development tools
-
-### `vercel` Branch  
-Production-ready Vercel deployment:
-- All main branch features
-- Vercel Blob Storage integration
-- Analytics & Speed Insights
-- Optimized build configuration
-- Ready-to-deploy setup
-
-## 🚀 Quick Start
-
-### 1. Clone the Repository
+### 1. Clone and Install
 ```bash
-# Clone main branch (recommended for most projects)
 git clone https://github.com/baranaytass/payload-boilerplate-kale.git
 cd payload-boilerplate-kale
-
-# OR clone Vercel branch for Vercel deployment
-git clone -b vercel https://github.com/baranaytass/payload-boilerplate-kale.git
-cd payload-boilerplate-kale
-```
-
-### 2. Install Dependencies
-```bash
 npm install
-# or
-pnpm install
 ```
 
-### 3. Setup Environment Variables
+### 2. Setup Environment
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 ```
 
-Edit `.env.local` with your database credentials:
+Edit `.env` with your database credentials:
 ```env
-DATABASE_URI=postgresql://username:password@localhost:5432/your_database_name
-PAYLOAD_SECRET=your-super-secret-key-here
+DATABASE_URI=postgresql://username:password@localhost:5432/database_name
+PAYLOAD_SECRET=your-secret-key
 ```
 
-### 4. Setup Database
-Ensure PostgreSQL is running and create your database:
+### 3. Setup Database
 ```sql
-CREATE DATABASE your_database_name;
+CREATE DATABASE database_name;
 ```
 
-### 5. Run Development Server
+### 4. Start Development
 ```bash
 npm run dev
 ```
 
 Visit `http://localhost:3000/admin` to access the admin panel.
 
-## 📋 Available Scripts
+## Scripts
 
 ```bash
-npm run dev          # Development server
-npm run build        # Production build
-npm run start        # Start production server
-npm run generate:types  # Generate TypeScript types
-npm run lint         # Run linting
+npm run dev      # Development server
+npm run build    # Production build
+npm run start    # Production server
+npm run lint     # Lint code
 ```
 
-## 🏗️ Project Structure
+## Branches
 
-```
-src/
-├── access/          # Access control functions
-├── app/             # Next.js App Router
-├── collections/     # Payload collections
-├── config/          # Configuration modules
-│   └── branchConfig.ts  # Dependency injection system
-├── fields/          # Reusable field schemas
-├── globals/         # Global configurations
-├── graphics/        # Brand assets (Kale logo & icon)
-├── lib/            # Utility libraries
-└── utilities/      # Helper functions
-```
+- **`main`** - Core boilerplate for any platform
+- **`vercel`** - Vercel-optimized with Blob storage and analytics
 
-## 🔧 Configuration
+## Configuration
 
-### Adding Custom Collections
-Add your collections to `src/config/branchConfig.ts`:
+Add custom collections to `src/config/branchConfig.ts`:
 
 ```typescript
-import { YourCollection } from '../collections/YourCollection'
-
-export const branchCollections: CollectionConfig[] = [
+export const branchCollections = [
   YourCollection,
-  // Add more collections here
+  // Add collections here
 ]
 ```
 
-### Adding Custom Globals
-```typescript
-import { YourGlobal } from '../globals/YourGlobal'
+## Collections
 
-export const branchGlobals: GlobalConfig[] = [
-  YourGlobal,
-  // Add more globals here
-]
-```
+- **Users** - Role-based authentication (admin, editor, user)
+- **Media** - Image optimization with multiple size variants
 
-## 🔐 Default Collections
+## Globals
 
-### Users
-- Role-based access control (admin, editor, user)
-- First user automatically becomes admin
-- Secure authentication system
+- **Website Settings** - Site info, contact details, branding
+- **General Contents** - Hero section, gallery, footer content
 
-### Media
-- Optimized image handling
-- Multiple size variants (thumbnail, card, tablet)
-- Error boundaries and fallbacks
+## License
 
-## 🌍 Default Globals
-
-### Website Settings
-- Site information and branding
-- Contact details and social media
-- Logo and favicon management
-
-### General Contents
-- Hero section management
-- About section content
-- Gallery management
-- Footer configuration
-
-## 🚢 Deployment
-
-### Vercel (Recommended)
-1. Use the `vercel` branch
-2. Connect to Vercel
-3. Add environment variables
-4. Deploy!
-
-### Other Platforms
-1. Use the `main` branch
-2. Ensure PostgreSQL is available
-3. Set environment variables
-4. Run `npm run build && npm start`
-
-## 🛠️ Development Patterns
-
-This boilerplate follows established patterns documented in `DEVELOPMENT_PATTERNS.md`:
-
-- **Modular Architecture** - Easy to extend and maintain
-- **TypeScript First** - Full type safety
-- **Access Control** - Role-based permissions
-- **Error Handling** - Graceful degradation
-- **Code Organization** - Clear folder structure
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Follow the development patterns
-4. Submit a pull request
-
-## 📄 License
-
-MIT License - feel free to use this boilerplate for your projects!
-
-## 🙏 Credits
-
-Built with [Payload CMS](https://payloadcms.com/) and inspired by the WhiteLabel example.
-Kale branding and architecture by [Kale Team](https://github.com/baranaytass).
-
----
-
-**Happy coding! 🎉**
+MIT License

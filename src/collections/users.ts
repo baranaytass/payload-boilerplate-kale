@@ -51,7 +51,7 @@ export const Users: CollectionConfig = {
           ({ req, data }) => {
             // First user becomes admin
             if (req.user) {
-              return data.roles || ['user']
+              return data?.roles || ['user']
             }
             return ['admin']
           },

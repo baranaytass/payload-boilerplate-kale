@@ -24,7 +24,6 @@ export const Media: CollectionConfig = {
   upload: {
     // Enable static file serving for media uploads
     staticDir: 'media',
-    staticURL: '/media',
     imageSizes: [
       {
         name: 'thumbnail',
