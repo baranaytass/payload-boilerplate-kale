@@ -15,10 +15,16 @@ export const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Alternative text for accessibility and SEO. Describe what the image shows.',
+      },
     },
     {
       name: 'caption',
       type: 'textarea',
+      admin: {
+        description: 'Optional caption text that will be displayed with the media.',
+      },
     },
   ],
   upload: {
@@ -30,22 +36,52 @@ export const Media: CollectionConfig = {
         width: 400,
         height: 300,
         position: 'centre',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 80,
+          },
+        },
       },
       {
         name: 'card',
         width: 768,
         height: 1024,
         position: 'centre',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 85,
+          },
+        },
       },
       {
         name: 'tablet',
         width: 1024,
         height: undefined,
         position: 'centre',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 85,
+          },
+        },
+      },
+      {
+        name: 'mobile',
+        width: 480,
+        height: undefined,
+        position: 'centre',
+        formatOptions: {
+          format: 'webp',
+          options: {
+            quality: 80,
+          },
+        },
       },
     ],
     adminThumbnail: 'thumbnail',
-    mimeTypes: ['image/*'],
+    mimeTypes: ['image/*', 'video/*'],
   },
 }
 
