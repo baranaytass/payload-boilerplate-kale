@@ -18,6 +18,10 @@ DEVELOPMENT_PATTERNS.md
 *_COMPARISON.md
 PROJECT_NOTES.md
 
+# Playwright test results
+test-results/
+playwright-report/
+
 # IDE files
 .vscode/
 .idea/

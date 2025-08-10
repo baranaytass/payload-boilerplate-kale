@@ -81,7 +81,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || process.env.POSTGRES_URL,
     },
-    push: false,
+    push: true, // Enable database migrations
   }),
   graphQL: {
     schemaOutputFile: path.resolve(dirname, 'generated-schema.graphql'),
