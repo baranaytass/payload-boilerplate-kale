@@ -11,16 +11,16 @@ import { Media } from './collections/media'
 import { WebsiteSettings } from './globals/websiteSettings'
 import { GeneralContents } from './globals/generalContents'
 
-// Branch-specific Configuration
-import { branchCollections, branchGlobals } from './config/branchConfig'
+// Vendor-specific Configuration
+import { vendorCollections, vendorGlobals } from './config/vendorConfig'
 
 // Core configurations
 const coreCollections = [Users, Media]
 const coreGlobals = [WebsiteSettings, GeneralContents]
 
-// Merge core and branch configurations
-const mergedCollections = [...coreCollections, ...branchCollections]
-const mergedGlobals = [...coreGlobals, ...branchGlobals]
+// Merge core and vendor configurations
+const mergedCollections = [...coreCollections, ...vendorCollections]
+const mergedGlobals = [...coreGlobals, ...vendorGlobals]
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
