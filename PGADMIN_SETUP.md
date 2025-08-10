@@ -8,26 +8,39 @@ pgAdmin is a web-based PostgreSQL administration and development platform. It's 
 - **Login Email**: admin@kale.com
 - **Login Password**: admin123
 
-## Initial Database Connection Setup
+## Database Connection Setup - ADIM ADIM KURULUM
 
-After logging into pgAdmin, you need to add a connection to your PostgreSQL database:
+pgAdmin'e giriş yaptıktan sonra veritabanı bağlantısını eklemek için:
 
-1. **Open pgAdmin** at http://localhost:8080
-2. **Login** with the credentials above
-3. **Add New Server**:
-   - Right-click on "Servers" → "Register" → "Server..."
+### 1. pgAdmin'i Açın
+- URL: http://localhost:8080
+- Email: admin@kale.com  
+- Şifre: admin123
 
-4. **General Tab**:
-   - Name: `Kale Payload Database`
+### 2. Server Ekleyin
+- Sol panelde "Servers" üzerine **SAG TIK** yapın
+- "Register" → "Server..." seçin
 
-5. **Connection Tab**:
-   - Host: `postgres`
-   - Port: `5432`
-   - Maintenance database: `kale_payload_db`
-   - Username: `kale_user`
-   - Password: `kale_password`
+### 3. General Tab
+- **Name**: `Kale Payload Database`
+- (Başka bir şey değiştirmeyin)
 
-6. **Click Save**
+### 4. Connection Tab - ÖNEMLİ BİLGİLER
+- **Host**: `postgres` (localhost DEĞİL!)
+- **Port**: `5432` 
+- **Maintenance database**: `kale_payload_db`
+- **Username**: `kale_user`
+- **Password**: `kale_password`
+- **Save Password**: ✅ işaretleyin
+
+### 5. Kaydet
+- **Save** butonuna tıklayın
+
+### 6. Tablolarınızı Görün
+Bağlantı başarılı olduğunda:
+- Servers → Kale Payload Database → Databases → kale_payload_db → Schemas → public → Tables
+
+Bu klasörde tüm Payload tablolarınızı göreceksiniz.
 
 ## What You Can Do
 
