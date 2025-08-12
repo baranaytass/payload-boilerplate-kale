@@ -25,6 +25,28 @@ const mergedGlobals = [...coreGlobals, ...vendorGlobals]
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// Database configuration with proper SSL handling
+const getDatabaseConfig = () => {
+  const baseConnectionString = process.env.DATABASE_URI || process.env.POSTGRES_URL
+  
+  if (!baseConnectionString) {
+    throw new Error('DATABASE_URI or POSTGRES_URL environment variable is required')
+  }
+
+  // Supabase pooler connections often have certificate chain issues
+  // This is a common workaround for both development and production
+  const url = new URL(baseConnectionString)
+  
+  // For Supabase pooler connections, disable SSL mode to avoid certificate issues
+  if (url.hostname.includes('pooler.supabase.com')) {
+    url.searchParams.set('sslmode', 'disable')
+    return url.toString()
+  }
+
+  // For other PostgreSQL providers, use the original connection string
+  return baseConnectionString
+}
+
 // eslint-disable-next-line no-restricted-exports
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000',
@@ -37,6 +59,7 @@ export default buildConfig({
     process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
   ],
   debug: process.env.NODE_ENV === 'development',
+  plugins: [],
   admin: {
     user: Users.slug,
     meta: {
@@ -79,9 +102,10 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URI || process.env.POSTGRES_URL,
+      connectionString: getDatabaseConfig(),
     },
     push: true, // Enable database migrations
+    migrationDir: path.resolve(dirname, 'migrations'),
   }),
   graphQL: {
     schemaOutputFile: path.resolve(dirname, 'generated-schema.graphql'),

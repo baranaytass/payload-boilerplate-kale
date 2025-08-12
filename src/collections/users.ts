@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { checkRole } from '../access/checkRole'
 import { admins } from '../access/admins'
 import { adminsOrSelf } from '../access/adminsOrSelf'
 
@@ -46,21 +45,10 @@ export const Users: CollectionConfig = {
           value: 'user',
         },
       ],
-      hooks: {
-        beforeChange: [
-          ({ req, data }) => {
-            // First user becomes admin
-            if (req.user) {
-              return data?.roles || ['user']
-            }
-            return ['admin']
-          },
-        ],
-      },
       access: {
-        read: ({ req }) => checkRole(['admin'], req.user),
-        create: ({ req }) => checkRole(['admin'], req.user),
-        update: ({ req }) => checkRole(['admin'], req.user),
+        read: ({ req: { user } }) => user?.roles?.includes('admin') || false,
+        create: ({ req: { user } }) => user?.roles?.includes('admin') || false,
+        update: ({ req: { user } }) => user?.roles?.includes('admin') || false,
       },
     },
   ],

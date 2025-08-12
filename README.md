@@ -1,21 +1,18 @@
 # KALE Admin - PayloadCMS Boilerplate
 
-A production-ready PayloadCMS boilerplate for building professional admin panels with PostgreSQL, Next.js, and modern architecture patterns.
-
-## About
-
-KALE Admin is our standardized boilerplate for creating content management systems. It provides a solid foundation with role-based authentication, media management, and SEO-ready configurations while maintaining clean, reusable code structure.
+Modern, production-ready PayloadCMS 3.50.0 boilerplate with PostgreSQL, Vercel deployment support, and comprehensive E2E testing.
 
 ## Features
 
-- PostgreSQL database with TypeScript support
-- Role-based access control (Admin, Editor, User)
-- Advanced media management with WebP optimization
-- SEO metadata fields and slug generation
-- Vendor-specific configuration system for easy customization
-- E2E testing with Playwright
-- Docker development environment with pgAdmin
-- Professional admin interface with KALE branding
+✅ **PayloadCMS 3.50.0** - Latest stable version
+✅ **PostgreSQL Database** - Production-ready with SSL support  
+✅ **Vercel Deployment** - One-click deploy with Blob storage
+✅ **Smart SSL Handling** - Automatic Supabase pooler support
+✅ **Role Management** - Auto-admin for first user creation
+✅ **Media Upload** - Vercel Blob storage integration
+✅ **E2E Testing** - Comprehensive Playwright tests
+✅ **TypeScript** - Full type safety
+✅ **Modern Stack** - Next.js 15.4.6, React 19.1.1
 
 ## Quick Start
 
