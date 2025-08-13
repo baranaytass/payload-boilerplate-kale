@@ -38,7 +38,7 @@ cp .env.example .env
 
 3. Start with Docker (recommended):
 ```bash
-docker-compose up -d postgres pgadmin
+docker-compose up -d postgres
 npm run dev
 ```
 
@@ -60,11 +60,14 @@ npm test:e2e     # Run E2E tests
 
 ## Database Management
 
-Access pgAdmin at `http://localhost:8080` with credentials:
-- Email: admin@kale.com
-- Password: admin123
+Use your preferred PostgreSQL client to connect to the database:
+- **Host:** localhost (or `postgres` when using Docker)
+- **Port:** 5432  
+- **Database:** kale_payload_db
+- **User:** kale_user
+- **Password:** kale_password
 
-Connect to PostgreSQL using host `postgres`, database `kale_payload_db`, user `kale_user`.
+Popular database management tools: TablePlus, DBeaver, pgAdmin, or VS Code PostgreSQL extensions.
 
 ## Customization
 
