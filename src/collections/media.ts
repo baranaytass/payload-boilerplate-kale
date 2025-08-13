@@ -28,8 +28,8 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    // Enable static file serving for media uploads
-    staticDir: 'media',
+    // Use static directory for local development, Vercel Blob for production
+    ...(process.env.VERCEL || process.env.NODE_ENV === 'production' ? {} : { staticDir: 'media' }),
     imageSizes: [
       {
         name: 'thumbnail',

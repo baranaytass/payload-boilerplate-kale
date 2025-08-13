@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { slateEditor } from '@payloadcms/richtext-slate'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -59,7 +60,18 @@ export default buildConfig({
     process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
   ],
   debug: process.env.NODE_ENV === 'development',
-  plugins: [],
+  plugins: [
+    // Only use Vercel Blob storage in production/Vercel environment
+    ...(process.env.VERCEL || process.env.NODE_ENV === 'production' ? [
+      vercelBlobStorage({
+        enabled: true,
+        collections: {
+          media: true,
+        },
+        token: process.env.BLOB_READ_WRITE_TOKEN!,
+      }),
+    ] : []),
+  ],
   admin: {
     user: Users.slug,
     meta: {
