@@ -5,13 +5,19 @@ Modern, production-ready PayloadCMS 3.50.0 boilerplate with PostgreSQL, Vercel d
 ## Features
 
 ✅ **PayloadCMS 3.50.0** - Latest stable version
-✅ **PostgreSQL Database** - Production-ready with SSL support  
+
+✅ **PostgreSQL Database** - Production-ready with SSL support 
+ 
 ✅ **Vercel Deployment** - One-click deploy with Blob storage
+
 ✅ **Smart SSL Handling** - Automatic Supabase pooler support
-✅ **Role Management** - Auto-admin for first user creation
+
 ✅ **Media Upload** - Vercel Blob storage integration
+
 ✅ **E2E Testing** - Comprehensive Playwright tests
+
 ✅ **TypeScript** - Full type safety
+
 ✅ **Modern Stack** - Next.js 15.4.6, React 19.1.1
 
 ## Quick Start
