@@ -7,11 +7,16 @@ build
 dist
 .next
 
-# Environment variables
+# Environment variables (examples are committed, actuals are not)
 .env
 .env.local
 .env.production
 .env.staging
+
+# VPS / infra files (managed via Coolify, not committed to repo)
+infra/
+docker-compose.production.yml
+VPS_INFRA_PLAN.md
 
 # Development documentation (keep local only)
 DEVELOPMENT_PATTERNS.md
