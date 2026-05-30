@@ -1,5 +1,5 @@
 import type { Access, AccessArgs } from 'payload'
-import type { User } from '../payload-types.js'
+import type { User } from '../payload-types'
 
 export const adminsOrSelf: Access<User> = ({ req: { user }, id }: AccessArgs<User>) => {
   // Admins can always access

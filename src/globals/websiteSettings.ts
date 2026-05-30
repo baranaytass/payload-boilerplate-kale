@@ -1,5 +1,5 @@
 import type { GlobalConfig } from 'payload'
-import { admins } from '../access/admins.js'
+import { admins } from '../access/admins'
 
 export const WebsiteSettings: GlobalConfig = {
   slug: 'website-settings',

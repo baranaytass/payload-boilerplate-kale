@@ -2,8 +2,7 @@
 set -e
 
 echo "[startup] Running database migrations..."
-TSX_TSCONFIG_PATH=/app/tsconfig.migrate.json node_modules/.bin/payload migrate \
-  || echo "[startup] Migration skipped or already up-to-date."
+node_modules/.bin/payload migrate || echo "[startup] Migration skipped or already up-to-date."
 
 echo "[startup] Starting application..."
 exec node server.js

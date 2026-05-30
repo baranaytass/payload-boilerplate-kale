@@ -8,13 +8,13 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 // Core Collections & Globals
-import Users from './collections/users.js'
-import { Media } from './collections/media.js'
-import { WebsiteSettings } from './globals/websiteSettings.js'
-import { GeneralContents } from './globals/generalContents.js'
+import Users from './collections/users'
+import { Media } from './collections/media'
+import { WebsiteSettings } from './globals/websiteSettings'
+import { GeneralContents } from './globals/generalContents'
 
 // Vendor-specific Configuration
-import { vendorCollections, vendorGlobals } from './config/vendorConfig.js'
+import { vendorCollections, vendorGlobals } from './config/vendorConfig'
 
 // Core configurations
 const coreCollections = [Users, Media]
