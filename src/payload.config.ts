@@ -1,6 +1,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { slateEditor } from '@payloadcms/richtext-slate'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -61,14 +62,28 @@ export default buildConfig({
   ],
   debug: process.env.NODE_ENV === 'development',
   plugins: [
-    // Only use Vercel Blob storage in production/Vercel environment
-    ...(process.env.VERCEL || process.env.NODE_ENV === 'production' ? [
+    // Vercel deployment: use Vercel Blob storage
+    ...(process.env.VERCEL ? [
       vercelBlobStorage({
         enabled: true,
-        collections: {
-          media: true,
-        },
+        collections: { media: true },
         token: process.env.BLOB_READ_WRITE_TOKEN!,
+      }),
+    ] : []),
+    // VPS / self-hosted: use MinIO (S3-compatible)
+    ...(!process.env.VERCEL && process.env.S3_ENDPOINT ? [
+      s3Storage({
+        collections: { media: true },
+        bucket: process.env.S3_BUCKET || 'media',
+        config: {
+          endpoint: process.env.S3_ENDPOINT,
+          region: process.env.S3_REGION || 'us-east-1',
+          forcePathStyle: true, // Required for MinIO
+          credentials: {
+            accessKeyId: process.env.S3_ACCESS_KEY!,
+            secretAccessKey: process.env.S3_SECRET_KEY!,
+          },
+        },
       }),
     ] : []),
   ],
