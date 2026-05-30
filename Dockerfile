@@ -18,7 +18,7 @@ ENV DATABASE_URI=postgresql://build:build@localhost:5432/build
 ENV POSTGRES_URL=postgresql://build:build@localhost:5432/build
 ENV PAYLOAD_SECRET=build-time-secret-placeholder-min-32-chars
 
-RUN npm run build
+RUN npm run build && node --require tsx/cjs node_modules/.bin/payload generate:importmap
 
 # ─── Stage 3: Production runner ───────────────────────────────────────────────
 FROM node:22-alpine AS runner
