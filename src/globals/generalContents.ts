@@ -1,5 +1,5 @@
 import { GlobalConfig } from 'payload'
-import { admins } from '../access/admins'
+import { admins } from '../access/admins.js'
 
 export const GeneralContents: GlobalConfig = {
   slug: 'general-contents',

@@ -1,5 +1,5 @@
 import type { Access } from 'payload'
-import type { User } from '../payload-types'
+import type { User } from '../payload-types.js'
 
 export const admins: Access<User> = ({ req: { user } }) => {
   if (!user) return false

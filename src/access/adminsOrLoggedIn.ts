@@ -1,5 +1,5 @@
 import type { Access } from 'payload'
-import type { User } from '../payload-types'
+import type { User } from '../payload-types.js'
 
 export const adminsOrLoggedIn: Access<User> = ({ req: { user } }) => {
   // Grant access if user is admin

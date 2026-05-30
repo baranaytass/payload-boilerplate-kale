@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
-import { anyone } from '../access/anyone'
-import { adminsOrLoggedIn } from '../access/adminsOrLoggedIn'
-import { revalidateAfterChange, revalidateAfterDelete } from '../hooks/revalidate'
+import { anyone } from '../access/anyone.js'
+import { adminsOrLoggedIn } from '../access/adminsOrLoggedIn.js'
+import { revalidateAfterChange, revalidateAfterDelete } from '../hooks/revalidate.js'
 
 export const Media: CollectionConfig = {
   slug: 'media',
