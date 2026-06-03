@@ -16,6 +16,12 @@ ENV PAYLOAD_SECRET=build-time-secret-placeholder-min-32-chars
 
 RUN node --require tsx/cjs node_modules/.bin/payload generate:importmap && npm run build
 
+# Install production-only deps into a separate folder for the runner stage
+RUN --mount=type=cache,target=/root/.npm \
+    mkdir -p /app_prod && \
+    cp package.json package-lock.json /app_prod/ && \
+    npm ci --ignore-scripts --omit=dev --prefix /app_prod
+
 # ─── Stage 2: Production runner ───────────────────────────────────────────────
 FROM node:22-alpine AS runner
 RUN apk add --no-cache libc6-compat dumb-init
@@ -32,8 +38,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
-# Full node_modules needed for `payload migrate` at runtime
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+# Production-only node_modules for `payload migrate` at runtime (~200MB vs 945MB)
+COPY --from=builder --chown=nextjs:nodejs /app_prod/node_modules ./node_modules
 
 # Source + config files required by payload CLI during migration
 COPY --from=builder --chown=nextjs:nodejs /app/src ./src
