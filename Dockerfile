@@ -6,6 +6,12 @@ COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
     npm ci --ignore-scripts --include=dev
 
+# Install prod-only deps before COPY . . so this layer is cached independently of source changes
+RUN --mount=type=cache,target=/root/.npm \
+    mkdir -p /app_prod && \
+    cp package.json package-lock.json /app_prod/ && \
+    npm ci --ignore-scripts --omit=dev --prefix /app_prod
+
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -15,12 +21,6 @@ ENV POSTGRES_URL=postgresql://build:build@localhost:5432/build
 ENV PAYLOAD_SECRET=build-time-secret-placeholder-min-32-chars
 
 RUN node --require tsx/cjs node_modules/.bin/payload generate:importmap && npm run build
-
-# Install production-only deps into a separate folder for the runner stage
-RUN --mount=type=cache,target=/root/.npm \
-    mkdir -p /app_prod && \
-    cp package.json package-lock.json /app_prod/ && \
-    npm ci --ignore-scripts --omit=dev --prefix /app_prod
 
 # ─── Stage 2: Production runner ───────────────────────────────────────────────
 FROM node:22-alpine AS runner
