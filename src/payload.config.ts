@@ -27,6 +27,26 @@ const mergedGlobals = [...coreGlobals, ...vendorGlobals]
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+/**
+ * The secret that signs every admin session and password-reset token.
+ *
+ * There is deliberately no fallback: a default value would silently ship to
+ * production, where anyone who knows it can mint a valid admin session.
+ */
+const getPayloadSecret = (): string => {
+  const secret = process.env.PAYLOAD_SECRET
+
+  if (!secret) {
+    throw new Error('PAYLOAD_SECRET environment variable is required')
+  }
+
+  if (process.env.NODE_ENV === 'production' && secret.length < 32) {
+    throw new Error('PAYLOAD_SECRET must be at least 32 characters in production')
+  }
+
+  return secret
+}
+
 // Database configuration with proper SSL handling
 const getDatabaseConfig = () => {
   const baseConnectionString = process.env.DATABASE_URI || process.env.POSTGRES_URL
@@ -49,7 +69,6 @@ const getDatabaseConfig = () => {
   return baseConnectionString
 }
 
-// eslint-disable-next-line no-restricted-exports
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000',
   cors: [
@@ -131,13 +150,16 @@ export default buildConfig({
     pool: {
       connectionString: getDatabaseConfig(),
     },
-    push: true, // Enable database migrations
+    // Schema push diffs the models against the live database and offers to drop
+    // whatever no longer matches. That is convenient while developing and
+    // dangerous in production, where schema changes belong in a migration.
+    push: process.env.NODE_ENV !== 'production',
     migrationDir: path.resolve(dirname, 'migrations'),
   }),
   graphQL: {
     schemaOutputFile: path.resolve(dirname, 'generated-schema.graphql'),
   },
-  secret: process.env.PAYLOAD_SECRET || 'default-secret-for-dev',
+  secret: getPayloadSecret(),
   upload: {
     limits: {
       fileSize: 200000000, // 200MB

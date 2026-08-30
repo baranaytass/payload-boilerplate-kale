@@ -1,8 +1,8 @@
 {
   "name": "kale-payload-boilerplate",
   "version": "1.0.0",
+  "type": "module",
   "license": "MIT",
-  "main": "dist/server.js",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
@@ -12,33 +12,42 @@
     "test:e2e": "playwright test",
     "test:e2e:local": "PLAYWRIGHT_BASE_URL=http://localhost:3000 playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:report": "cat test-results/ai-summary.md"
+    "test:e2e:report": "cat test-results/ai-summary.md",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "generate:types": "payload generate:types"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "3.50.0",
-    "@payloadcms/next": "3.50.0",
-    "@payloadcms/richtext-slate": "3.50.0",
-    "@payloadcms/storage-s3": "3.50.0",
-    "@payloadcms/storage-vercel-blob": "3.50.0",
-    "class-variance-authority": "0.7.1",
+    "@payloadcms/db-postgres": "3.88.0",
+    "@payloadcms/next": "3.88.0",
+    "@payloadcms/richtext-slate": "3.88.0",
+    "@payloadcms/storage-s3": "3.88.0",
+    "@payloadcms/storage-vercel-blob": "3.88.0",
     "clsx": "2.1.1",
     "graphql": "16.11.0",
-    "next": "15.4.6",
-    "payload": "3.50.0",
-    "pg": "8.16.3",
+    "next": "15.4.11",
+    "payload": "3.88.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "sharp": "0.34.3",
+    "sharp": "0.35.4",
     "tailwind-merge": "1.14.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@playwright/test": "1.54.2",
     "@types/node": "20.19.10",
-    "@types/pg": "8.15.5",
     "@types/react": "19.1.9",
     "@types/react-dom": "19.1.7",
-    "fair-playwright": "^1.2.1",
-    "typescript": "5.9.2"
+    "autoprefixer": "^10.5.4",
+    "eslint": "^9.39.5",
+    "fair-playwright": "^1.2.2",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^3.4.19",
+    "typescript": "5.9.2",
+    "typescript-eslint": "^8.68.0",
+    "vitest": "^3.2.7"
   },
   "engines": {
     "node": ">=22.0.0"

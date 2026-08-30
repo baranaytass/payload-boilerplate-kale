@@ -4,28 +4,22 @@ Modern, production-ready PayloadCMS 3.50.0 boilerplate with PostgreSQL, Vercel d
 
 ## Features
 
-✅ **PayloadCMS 3.50.0** - Latest stable version
-
-✅ **PostgreSQL Database** - Production-ready with SSL support 
- 
-✅ **Vercel Deployment** - One-click deploy with Blob storage
-
-✅ **Smart SSL Handling** - Automatic Supabase pooler support
-
-✅ **Media Upload** - Vercel Blob storage integration
-
-✅ **E2E Testing** - Comprehensive Playwright tests
-
-✅ **TypeScript** - Full type safety
-
-✅ **Modern Stack** - Next.js 15.4.6, React 19.1.1
+- **Payload CMS 3.88** on PostgreSQL, with Users, Media, and site-wide globals
+- **Next.js 15** App Router, admin and public site in separate route groups
+- **Content from the CMS** — page metadata and copy come from the database, so
+  editing them does not need a deploy
+- **Media pipeline** — automatic WebP variants; local disk, S3/MinIO or Vercel Blob
+- **Tailwind CSS** scoped to the public site (the admin ships its own styles)
+- **Typed end to end** — `payload-types.ts` is generated from the schema
+- **Checks that run** — ESLint, TypeScript, Vitest unit tests and Playwright E2E,
+  all enforced in CI and in the production build
 
 ## Quick Start
 
 ### Prerequisites
-- Node.js 18+ and npm
-- PostgreSQL database
-- Docker (optional but recommended)
+- Node.js 22+ and npm (see `engines` in package.json)
+- PostgreSQL 14+
+- Docker (optional, for the bundled Postgres)
 
 ### Installation
 
@@ -36,11 +30,22 @@ cd payload-boilerplate-kale
 npm install
 ```
 
-2. Copy environment file and configure database:
+2. Create the environment file:
 ```bash
 cp .env.example .env
-# Edit .env with your database credentials
 ```
+
+Fill in `DATABASE_URI` and generate the two secrets the app requires:
+
+```bash
+openssl rand -hex 32   # PAYLOAD_SECRET   - signs admin sessions
+openssl rand -hex 32   # REVALIDATE_SECRET - authenticates cache purges
+```
+
+The app refuses to start without `PAYLOAD_SECRET`, and requires at least 32
+characters for it in production. Point `DATABASE_URI` at a database dedicated to
+this project: in development Payload pushes schema changes on boot and prompts
+before dropping tables.
 
 3. Start with Docker (recommended):
 ```bash
@@ -53,16 +58,36 @@ Or start with local database:
 npm run dev
 ```
 
-4. Visit `http://localhost:3000/admin/create-first-user` to create your admin account.
+4. Visit `http://localhost:3000/admin/create-first-user` to create your admin
+account. The first account created becomes an admin automatically; after that,
+only admins can create users.
 
 ## Development
 
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run test:e2e     # Run E2E tests
+npm run dev              # Start development server
+npm run build            # Production build (fails on type or lint errors)
+npm run start            # Serve the production build
+
+npm run lint             # ESLint
+npm run typecheck        # TypeScript, no emit
+npm test                 # Vitest unit tests
+npm run test:e2e         # Playwright E2E (see Testing below)
+
+npm run generate:types   # Regenerate payload-types.ts from the schema
+npm run migrate          # Run Payload migrations
 ```
+
+Run `npm run generate:types` after changing any collection or global — the
+generated types are what make CMS content type-safe in the app.
+
+### Production notes
+
+- Schema push is disabled when `NODE_ENV=production`; ship schema changes as
+  migrations (`npm run migrate`).
+- The build enforces type and lint errors rather than ignoring them, so a broken
+  type fails CI instead of reaching production.
+- `/admin` is served with `X-Robots-Tag: noindex, nofollow`.
 
 ## Testing
 

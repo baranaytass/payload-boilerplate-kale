@@ -21,16 +21,20 @@ test.describe('Homepage', () => {
           { failure: 'Homepage did not load' },
         ],
         [
-          'Page title identifies the boilerplate',
+          'Page has a non-empty title',
           async () => {
-            await expect(page).toHaveTitle(/Kale Payload Boilerplate/)
+            // The title comes from the CMS (Website Settings / General
+            // Contents), falling back to 'Kale' on an unseeded database, so
+            // assert it resolves to something rather than to fixed copy.
+            await expect(page).toHaveTitle(/\S/)
           },
         ],
         [
-          'Heading and welcome copy are visible',
+          'Heading renders the site name from the CMS',
           async () => {
-            await expect(page.locator('h1')).toContainText('Hello World')
-            await expect(page.locator('p')).toContainText('Welcome to Kale Payload Boilerplate')
+            const heading = page.locator('h1')
+            await expect(heading).toBeVisible()
+            await expect(heading).not.toBeEmpty()
           },
         ],
         [
@@ -38,11 +42,11 @@ test.describe('Homepage', () => {
           async () => {
             const adminLink = page.locator('a[href="/admin"]')
             await expect(adminLink).toBeVisible()
-            await expect(adminLink).toContainText('Admin Panel')
+            await expect(adminLink).toContainText(/admin panel/i)
 
             const graphqlLink = page.locator('a[href="/api/graphql"]')
             await expect(graphqlLink).toBeVisible()
-            await expect(graphqlLink).toContainText('GraphQL API')
+            await expect(graphqlLink).toContainText(/graphql api/i)
           },
         ],
       ],
