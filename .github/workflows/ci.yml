@@ -102,6 +102,12 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      # The suite runs against a production build, where schema push is off by
+      # design, so the schema has to come from migrations - exactly as it does
+      # on a real deploy.
+      - name: Run migrations
+        run: npm run migrate
+
       - name: Run E2E tests
         run: npm run test:e2e
 
