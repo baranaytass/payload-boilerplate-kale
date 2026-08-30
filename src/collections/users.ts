@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { admins } from '../access/admins'
 import { adminsOrSelf } from '../access/adminsOrSelf'
+import { adminsOrFirstUser } from '../access/adminsOrFirstUser'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -11,7 +12,7 @@ export const Users: CollectionConfig = {
   },
   access: {
     read: adminsOrSelf,
-    create: admins,
+    create: adminsOrFirstUser,
     update: adminsOrSelf,
     delete: admins,
   },
@@ -31,6 +32,25 @@ export const Users: CollectionConfig = {
       type: 'select',
       hasMany: true,
       defaultValue: ['user'],
+      hooks: {
+        beforeChange: [
+          async ({ req, operation, value }) => {
+            if (operation !== 'create') return value
+
+            // The very first account has to be an admin: `create` is
+            // admin-only, so a site whose first user is a plain 'user' can
+            // never gain an administrator.
+            const { totalDocs } = await req.payload.count({
+              collection: 'users',
+              req,
+            })
+
+            if (totalDocs === 0) return ['admin']
+
+            return value
+          },
+        ],
+      },
       options: [
         {
           label: 'Admin',
