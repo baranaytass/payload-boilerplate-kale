@@ -58,10 +58,73 @@ npm run dev
 ## Development
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run start    # Start production server
-npm test:e2e     # Run E2E tests
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run test:e2e     # Run E2E tests
+```
+
+## Testing
+
+E2E tests run on Playwright with [fair-playwright](https://github.com/baranaytass/fair-playwright)
+as the reporter, which groups assertions into named MAJOR/MINOR steps so a
+failure names the step that broke instead of a bare stack trace.
+
+```bash
+npm run test:e2e         # Run against http://localhost:3000
+npm run test:e2e:ui      # Playwright's interactive UI
+npm run test:e2e:report  # Print the AI-readable summary of the last run
+```
+
+Start the dev server first - the tests drive a real browser against it.
+
+Tests live in `tests/e2e/` and are written with the `e2e.quick()` helper:
+
+```typescript
+import { e2e } from 'fair-playwright'
+
+await e2e.quick('Admin panel boots', [
+  ['Open /admin', async () => { await page.goto('/admin') },
+    { failure: 'Admin panel did not finish loading' }],
+  ['Title carries the CMS branding', async () => {
+    await expect(page).toHaveTitle(/Kale CMS/)
+  }],
+])
+```
+
+Give each step a `failure` message describing what broke in plain terms. Don't
+add `console.log` calls to trace progress - the reporter already prints the step
+tree, live.
+
+Each run writes two files under `test-results/`:
+
+| File | Purpose |
+| --- | --- |
+| `ai-summary.md` | Human/AI-readable run summary |
+| `results.json` | Machine-readable results, read by the MCP server |
+
+### MCP integration
+
+The repo root registers a fair-playwright MCP server in `.mcp.json`, which lets
+Claude Code query the last run directly ("which tests failed and where?").
+
+It reads `test-results/results.json`, so keep the `json` output enabled in
+`playwright.config.ts` - without it the server has nothing to read.
+
+> **Note:** the published fair-playwright 1.2.0 caches results from the first
+> read for the life of the process, so a re-run may report stale results until
+> the next release. The fix is on `main` upstream.
+
+### Database for tests
+
+The suite talks to whatever database `.env` points at, and Payload will prompt
+before pushing a schema change that drops tables. Point `DATABASE_URI` at a
+scratch database when running tests so a prompt can never block the suite or
+put real data at risk:
+
+```bash
+createdb kale_payload_test
+DATABASE_URI=postgresql://kale_user:kale_password@localhost:5432/kale_payload_test npm run dev
 ```
 
 ## Database Management
