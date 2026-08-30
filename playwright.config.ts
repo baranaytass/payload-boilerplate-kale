@@ -48,6 +48,17 @@ export default defineConfig({
       : []),
   ],
 
+  // On CI, start the app ourselves. Locally, reuse whatever is already running
+  // so `npm run dev` in another terminal keeps its state.
+  webServer: isCI
+    ? {
+        command: 'npm run build && npm run start',
+        url: 'http://localhost:3000',
+        reuseExistingServer: false,
+        timeout: 300_000,
+      }
+    : undefined,
+
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
     trace: 'on-first-retry',
