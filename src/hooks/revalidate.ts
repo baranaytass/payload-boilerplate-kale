@@ -1,14 +1,29 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 
-const revalidate = async (collection: string, operation: string, doc?: any) => {
+/**
+ * Ask the Next.js cache to drop the pages a collection feeds.
+ *
+ * The shared secret travels in a header, never in the URL: query strings are
+ * written verbatim into server, proxy and CDN access logs, and this secret is
+ * the one that signs every admin session.
+ */
+const revalidate = async (collection: string, operation: string, doc?: { id?: string | number; slug?: string }) => {
+  const secret = process.env.REVALIDATE_SECRET
+
+  // Without a dedicated secret there is nothing to authenticate with, so skip
+  // rather than fall back to PAYLOAD_SECRET and put it on the wire.
+  if (!secret) {
+    return
+  }
+
+  const serverURL = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
+
   try {
-    const serverURL = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
-    const revalidateURL = `${serverURL}/api/revalidate?secret=${process.env.PAYLOAD_SECRET}`
-    
-    const response = await fetch(revalidateURL, {
+    const response = await fetch(`${serverURL}/api/revalidate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-revalidate-secret': secret,
       },
       body: JSON.stringify({
         collection,
@@ -18,47 +33,37 @@ const revalidate = async (collection: string, operation: string, doc?: any) => {
     })
 
     if (!response.ok) {
-      console.error(`❌ Revalidation failed for ${collection}:`, response.status)
-      return
+      console.error(`Revalidation failed for ${collection}: ${response.status}`)
     }
-
-    const result = await response.json()
-    console.log(`✅ Revalidated ${collection} after ${operation}:`, result)
-    
   } catch (error) {
-    console.error(`❌ Revalidation error for ${collection}:`, error)
+    console.error(`Revalidation error for ${collection}:`, error)
   }
 }
 
 export const revalidateAfterChange: CollectionAfterChangeHook = async ({
   doc,
-  req,
   operation,
   collection,
 }) => {
-  // Skip revalidation in development to avoid unnecessary requests
   if (process.env.NODE_ENV === 'development') {
     return doc
   }
 
-  // Perform revalidation in background (don't wait)
-  revalidate(collection.slug, operation, doc)
-  
+  // Fire and forget: a slow cache purge must not hold up the editor's save.
+  void revalidate(collection.slug, operation, doc)
+
   return doc
 }
 
 export const revalidateAfterDelete: CollectionAfterDeleteHook = async ({
   doc,
-  req,
   collection,
 }) => {
-  // Skip revalidation in development to avoid unnecessary requests
   if (process.env.NODE_ENV === 'development') {
     return doc
   }
 
-  // Perform revalidation in background (don't wait)
-  revalidate(collection.slug, 'delete', doc)
-  
+  void revalidate(collection.slug, 'delete', doc)
+
   return doc
 }
