@@ -2,7 +2,9 @@
 set -e
 
 echo "[startup] Running database migrations..."
-node --require tsx/cjs node_modules/.bin/payload migrate || echo "[startup] Migration skipped or already up-to-date."
+# A failed migration must stop the boot. Starting anyway would serve traffic
+# against a schema the code does not match.
+npx payload migrate
 
 echo "[startup] Starting application..."
 exec node server.js

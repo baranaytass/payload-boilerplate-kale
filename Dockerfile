@@ -20,7 +20,9 @@ ENV DATABASE_URI=postgresql://build:build@localhost:5432/build
 ENV POSTGRES_URL=postgresql://build:build@localhost:5432/build
 ENV PAYLOAD_SECRET=build-time-secret-placeholder-min-32-chars
 
-RUN node --require tsx/cjs node_modules/.bin/payload generate:importmap && npm run build
+# The package is ESM ("type": "module"), so the Payload CLI is invoked directly
+# rather than through tsx's CommonJS loader.
+RUN npx payload generate:importmap && npm run build
 
 # ─── Stage 2: Production runner ───────────────────────────────────────────────
 FROM node:22-alpine AS runner
