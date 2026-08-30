@@ -111,10 +111,6 @@ Claude Code query the last run directly ("which tests failed and where?").
 It reads `test-results/results.json`, so keep the `json` output enabled in
 `playwright.config.ts` - without it the server has nothing to read.
 
-> **Note:** the published fair-playwright 1.2.0 caches results from the first
-> read for the life of the process, so a re-run may report stale results until
-> the next release. The fix is on `main` upstream.
-
 ### Database for tests
 
 The suite talks to whatever database `.env` points at, and Payload will prompt
